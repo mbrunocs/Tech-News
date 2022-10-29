@@ -3,7 +3,6 @@ import time
 import parsel
 
 
-# Requisito 1
 def fetch(url, timeout=3):
     time.sleep(1)
     try:
@@ -15,22 +14,34 @@ def fetch(url, timeout=3):
         return None
 
 
-# Requisito 2
 def scrape_novidades(html_content: str):
     selector = parsel.Selector(html_content)
     links = selector.css("h2.entry-title a::attr(href)").getall()
     return links
 
 
-# Requisito 3
-def scrape_next_page_link(html_content):
+def scrape_next_page_link(html_content: str):
     selector = parsel.Selector(html_content)
     return selector.css("a.next ::attr(href)").get()
 
 
-# Requisito 4
-def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+# Ref:  https://devpress.csdn.net/python/62f50311c6770329307fafd1.html
+#       https://www.w3schools.com/CSSref/sel_nth-of-type.php
+def scrape_noticia(html_content: str):
+    selector = parsel.Selector(html_content)
+    return dict({
+        "url": selector.css("head link[rel=canonical]::attr(href)").get(),
+        "title": selector.css("h1.entry-title ::text").get().strip(),
+        "timestamp": selector.css("li.meta-date ::text").get(),
+        "writer": selector.css("span.author a::text").get(),
+        "comments_count": selector.css("comment").getall().__len__(),
+        "summary":
+            ''.join(selector
+                .css("div.entry-content > p:nth-of-type(1) *::text")
+                .getall()).strip(),
+        "tags": selector.css('a[rel=tag]::text').getall(),
+        "category": selector.css("span.label ::text").get(),
+    })
 
 
 # Requisito 5
