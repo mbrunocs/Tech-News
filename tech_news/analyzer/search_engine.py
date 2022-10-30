@@ -25,6 +25,6 @@ def search_by_tag(tag):
     return [(row["title"], row["url"]) for row in results]
 
 
-# Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    results = search_news({"category": {"$regex": category, "$options": "i"}})
+    return [(row["title"], row["url"]) for row in results]
