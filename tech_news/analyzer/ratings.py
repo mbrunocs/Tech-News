@@ -9,6 +9,15 @@ def top_5_news():
         result, key=lambda k: (-k['comments_count'], k['title']))][:5]
 
 
-# Requisito 11
+# ref: https://stackoverflow.com/questions/613183/
+#       how-do-i-sort-a-dictionary-by-value
 def top_5_categories():
-    """Seu código deve vir aqui"""
+    count_egories = dict()
+    for row in find_news():
+        if row["category"] in dict.keys(count_egories):
+            count_egories[row["category"]] += 1
+        else:
+            count_egories[row["category"]] = 1
+
+    return [k for k, v in sorted(
+        count_egories.items(), key=lambda i: (-i[1], i))][:5]
