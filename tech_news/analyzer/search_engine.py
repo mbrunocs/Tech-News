@@ -20,9 +20,9 @@ def search_by_date(date):
         raise ValueError("Data inválida")
 
 
-# Requisito 8
 def search_by_tag(tag):
-    """Seu código deve vir aqui"""
+    results = search_news({"tags": {"$regex": tag, "$options": "i"}})
+    return [(row["title"], row["url"]) for row in results]
 
 
 # Requisito 9
