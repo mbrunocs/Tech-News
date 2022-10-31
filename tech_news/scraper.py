@@ -46,12 +46,13 @@ def scrape_noticia(html_content: str):
 
 
 def get_tech_news(amount):
+    number = int(amount)
     page = fetch("https://blog.betrybe.com/")
     news = []
-    while len(news) < amount:
-        for news_link in scrape_novidades(page)[:(amount - len(news))]:
+    while len(news) < number:
+        for news_link in scrape_novidades(page)[:(number - len(news))]:
             news.append(scrape_noticia(fetch(news_link)))
-        if not len(news) == amount:
+        if not len(news) == number:
             page = fetch(scrape_next_page_link(page))
     create_news(news)
     return news
