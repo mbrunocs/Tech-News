@@ -78,6 +78,3 @@ def analyzer_menu():
         return command[opt]()
     except KeyError:
         sys.stderr.write("Opção inválida\n")
-# path do sys.argv, controle somente do comando tech-news-analyzer?
-#       preciso de outros args? necessário apenas pra teste no terminal?
-# + outros erros
